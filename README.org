@@ -1,0 +1,73 @@
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline author:t
+#+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
+#+OPTIONS: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
+#+OPTIONS: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
+#+TITLE: README
+#+DATE: <2018-05-09 sze>
+#+AUTHOR: Gergely Szabo
+#+EMAIL: gergely.szabo@origoss.com
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 25.2.2 (Org mode 9.1.13)
+
+* Introduction
+
+  =yemplate= is a simple CLI wrapper around golang's [[https://golang.org/pkg/text/template][text/template]] library. 
+
+  It takes to input:
+  - A yaml file with defining parameters (=-p=)
+  - An arbitrary text file using the =text/template= markup (=-t=)
+  
+* Examples
+
+** Simple substition
+
+   The ~param1.yaml~ file looks like this:
+   #+BEGIN_SRC yaml :tangle param1.yaml
+     name: Gergely
+     favoriteFood: chocolate 
+   #+END_SRC
+   
+   The ~text1.txt~ file looks like this:
+   #+BEGIN_SRC text :tangle text1.txt
+     Welcome {{ .name }}, I know your favorite food is {{ .favoriteFood }}.
+   #+END_SRC
+
+   To execute the substitution:
+   #+BEGIN_SRC bash :results verbatim :exports both
+     yemplate -p param1.yaml -t text1.txt
+   #+END_SRC
+
+   #+RESULTS:
+   : Welcome Gergely, I know your favorite food is chocolate.
+
+** A bit more complex 
+
+   The ~param2.yaml~ file looks like this:
+   #+BEGIN_SRC yaml :tangle param2.yaml
+     name: Gergely
+     favoriteFoods: 
+     - chocolate 
+     - banana
+     - ice cream
+   #+END_SRC
+   
+   The ~text2.txt~ file looks like this:
+   #+BEGIN_SRC text :tangle text2.txt
+     Welcome {{ .name }}, I know your favorite foods are
+     {{ range .favoriteFoods -}}
+       -{{ . }} 
+     {{ end -}}
+   #+END_SRC
+
+   To execute the substitution:
+   #+BEGIN_SRC bash :results verbatim :exports both
+     yemplate -p param2.yaml -t text2.txt
+   #+END_SRC
+
+   #+RESULTS:
+   : Welcome Gergely, I know your favorite foods are
+   : -chocolate 
+   : -banana 
+   : -ice cream 
