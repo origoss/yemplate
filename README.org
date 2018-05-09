@@ -18,7 +18,14 @@
   It takes to input:
   - A yaml file with defining parameters (=-p=)
   - An arbitrary text file using the =text/template= markup (=-t=)
+
+* Installation
   
+  Execute the following command:
+  #+BEGIN_SRC bash :results verbatim
+  go get github.com/origoss/yemplate
+  #+END_SRC
+
 * Examples
 
 ** Simple substition
