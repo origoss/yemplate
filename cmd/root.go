@@ -16,13 +16,14 @@ var rootCmd = &cobra.Command{
 	Short: "yemplate is a simple CLI wrapper for the go text/template library",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var err error
-		var params, templated io.Reader
+		var params io.Reader
+		var templated io.ReadCloser
 		if parameterFile == "" {
 			params = bytes.NewBufferString("{}")
 		} else if params, err = os.Open(parameterFile); err != nil {
 			return err
 		}
-		if templated, err = os.Open(templateFile); err != nil {
+		if templated, err = openFileOrWeb(templateFile); err != nil {
 			return err
 		}
 

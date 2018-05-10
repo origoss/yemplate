@@ -26,7 +26,8 @@ func mergedParameters(params io.Reader, paramStrvals []string) (map[string]inter
 	return templateMap, nil
 }
 
-func doTemplate(tmplMap map[string]interface{}, target io.Reader, output io.Writer) (err error) {
+func doTemplate(tmplMap map[string]interface{}, target io.ReadCloser, output io.Writer) (err error) {
+	defer target.Close()
 	var targetBytes []byte
 	var tmplTmpl *template.Template
 
