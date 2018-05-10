@@ -31,12 +31,14 @@
 ** Simple substition
 
    The ~param1.yaml~ file looks like this:
+   #+CAPTION: param1.yaml
    #+BEGIN_SRC yaml :tangle param1.yaml
      name: Gergely
      favoriteFood: chocolate 
    #+END_SRC
    
    The ~text1.txt~ file looks like this:
+   #+CAPTION: text1.txt
    #+BEGIN_SRC text :tangle text1.txt
      Welcome {{ .name }}, I know your favorite food is {{ .favoriteFood }}.
    #+END_SRC
@@ -52,6 +54,7 @@
 ** A bit more complex 
 
    The ~param2.yaml~ file looks like this:
+   #+CAPTION: param2.yaml
    #+BEGIN_SRC yaml :tangle param2.yaml
      name: Gergely
      favoriteFoods: 
@@ -61,6 +64,7 @@
    #+END_SRC
    
    The ~text2.txt~ file looks like this:
+   #+CAPTION: text2.txt
    #+BEGIN_SRC text :tangle text2.txt
      Welcome {{ .name }}, I know your favorite foods are
      {{ range .favoriteFoods -}}
