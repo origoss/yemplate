@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-05-10 cs 11:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Yemplate</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Gergely Szabo" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Yemplate</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb212111">1. Introduction</a></li>
+<li><a href="#org8c1fb77">2. Use case</a>
+<ul>
+<li><a href="#org1a51301">2.1. First approach</a></li>
+<li><a href="#org66f05ee">2.2. Repeat with another git repo</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb212111" class="outline-2">
+<h2 id="orgb212111"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We at <a href="https://origoss.com">origoss</a> love <a href="https://kubernetes.io">Kubernetes</a>. Sometimes we use our Kubernetes deployment to
+run some <a href="https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/">batch jobs</a>.
+</p>
+
+<p>
+Batch jobs are awesome but sometimes we find it a bit hard to work with.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8c1fb77" class="outline-2">
+<h2 id="org8c1fb77"><span class="section-number-2">2</span> Use case</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Let's see a bit convoluted use case where we want to copy a git repository to
+a <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">persistent volume</a>.
+</p>
+</div>
+
+<div id="outline-container-org1a51301" class="outline-3">
+<h3 id="org1a51301"><span class="section-number-3">2.1</span> First approach</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+First, let's create a manifest file for our job that will mount two volumes
+and perform the copy between the volumes.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>job1.yaml</label><pre class="src src-yaml" id="org119532f"><span style="color: #7590db;">apiVersion</span>: batch/v1
+<span style="color: #7590db;">kind</span>: Job
+<span style="color: #7590db;">metadata</span>:
+  <span style="color: #7590db;">name</span>: git-copy-1
+<span style="color: #7590db;">spec</span>:
+  <span style="color: #7590db;">template</span>:
+    <span style="color: #7590db;">spec</span>:
+      <span style="color: #7590db;">containers</span>:
+      - <span style="color: #7590db;">name</span>: git-copier
+        <span style="color: #7590db;">image</span>: busybox
+        <span style="color: #7590db;">volumeMounts</span>:
+        - <span style="color: #7590db;">name</span>: gitrepo
+          <span style="color: #7590db;">mountPath</span>: /git
+        - <span style="color: #7590db;">name</span>: target
+          <span style="color: #7590db;">mountPath</span>: /target
+        <span style="color: #7590db;">command</span>:
+        - sh
+        - -c
+        - |
+          <span style="color: #2d9574;">rm -rf /target/*</span>
+<span style="color: #2d9574;">          rm -rf /target/.*</span>
+<span style="color: #2d9574;">          cp -a /git/* /target</span>
+<span style="color: #2d9574;">          ls -a /target/*/*</span>
+      <span style="color: #7590db;">restartPolicy</span>: Never
+      <span style="color: #7590db;">volumes</span>:
+      - <span style="color: #7590db;">name</span>: gitrepo
+        <span style="color: #7590db;">gitRepo</span>:
+          <span style="color: #7590db;">repository</span>: <span style="color: #2d9574;">'https://github.com/origoss/yemplate.git'</span>
+      - <span style="color: #7590db;">name</span>: target
+        <span style="color: #7590db;">persistentVolumeClaim</span>:
+          <span style="color: #7590db;">claimName</span>: git-repo-target
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>Starting job1</label><pre class="src src-bash">kubectl apply -f job1.yaml
+</pre>
+</div>
+
+<pre class="example">
+job.batch "git-copy-1" created
+
+</pre>
+
+<p>
+After the job has been started, we can check the status with the <code>describe</code>
+command.
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>Status of job1</label><pre class="src src-bash">kubectl describe job git-copy-1
+</pre>
+</div>
+
+<pre class="example">
+Name:           git-copy-1
+Namespace:      default
+Selector:       controller-uid=7769d70b-5431-11e8-b180-525400239935
+Labels:         controller-uid=7769d70b-5431-11e8-b180-525400239935
+                job-name=git-copy-1
+Annotations:    kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"name":"git-copy-1","namespace":"default"},"spec":{"template":{"spec":{"containers":...
+Parallelism:    1
+Completions:    1
+Start Time:     Thu, 10 May 2018 11:06:46 +0200
+Pods Statuses:  0 Running / 1 Succeeded / 0 Failed
+Pod Template:
+  Labels:  controller-uid=7769d70b-5431-11e8-b180-525400239935
+           job-name=git-copy-1
+  Containers:
+   git-copier:
+    Image:      busybox
+    Port:       &lt;none&gt;
+    Host Port:  &lt;none&gt;
+    Command:
+      sh
+      -c
+      rm -rf /target/*
+rm -rf /target/.*
+cp -a /git/* /target
+ls -a /target/*/*
+
+    Environment:  &lt;none&gt;
+    Mounts:
+      /git from gitrepo (rw)
+      /target from target (rw)
+  Volumes:
+   gitrepo:
+    Type:        GitRepo (a volume that is pulled from git when the pod is created)
+    Repository:  https://github.com/origoss/yemplate.git
+    Revision:    
+   target:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  git-repo-target
+    ReadOnly:   false
+Events:
+  Type    Reason            Age   From            Message
+  ----    ------            ----  ----            -------
+  Normal  SuccessfulCreate  14s   job-controller  Created pod: git-copy-1-bn5hd
+</pre>
+
+<p>
+Let's check the logs generated by the pod.
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>Log of the pod created by job1</label><pre class="src src-bash">kubectl logs git-copy-1-bn5hd
+</pre>
+</div>
+
+<pre class="example">
+rm: can't remove '.' or '..'
+rm: can't remove '.' or '..'
+/target/yemplate/LICENSE
+/target/yemplate/README.org
+/target/yemplate/main.go
+
+/target/yemplate/docs:
+.
+..
+_config.yml
+index.org
+</pre>
+
+<p>
+Finally, we can remove the job.
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>Delete job1</label><pre class="src src-bash">kubectl delete job git-copy-1
+</pre>
+</div>
+
+<pre class="example">
+job.batch "git-copy-1" deleted
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org66f05ee" class="outline-3">
+<h3 id="org66f05ee"><span class="section-number-3">2.2</span> Repeat with another git repo</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+We demonstrated, that it is relatively easy to start a job in Kubernetes.
+What if we want to repeat the previous exercise using a slightly different
+parameters, e.g. for a different git repository?
+</p>
+
+<p>
+For jobs, the current standard solution is to create a new yaml file based on
+the one shown in Listing <a href="#org119532f">1</a>.
+</p>
+
+<p>
+If we perform such a task regularly this task cries for automation. If it was
+a <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">deployment</a>, we could use <a href="https://helm.sh/">helm</a> or some other available tool to create a
+reusable template. 
+</p>
+
+<p>
+Fortunately, for jobs, we can use the simple <a href="https://github.com/origoss/yemplate">yemplate</a> tool.
+</p>
+
+<p>
+Let's create a job template based on the <a href="#org119532f">previous job manifest</a>.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 6: </span>job1.yaml.t</label><pre class="src src-text" id="org21acd83">apiVersion: batch/v1
+kind: Job
+metadata:
+  name: git-copy-1
+spec:
+  template:
+    spec:
+      containers:
+      - name: git-copier
+        image: busybox
+        volumeMounts:
+        - name: gitrepo
+          mountPath: /git
+        - name: target
+          mountPath: /target
+        command:
+        - sh
+        - -c
+        - |
+          rm -rf /target/*
+          rm -rf /target/.*
+          cp -a /git/* /target
+          ls -a /target/*/*
+      restartPolicy: Never
+      volumes:
+      - name: gitrepo
+        gitRepo:
+          repository: {{ .repository }}
+      - name: target
+        persistentVolumeClaim:
+          claimName: git-repo-target
+</pre>
+</div>
+
+<p>
+The only difference (besides the meaningless <code>.t</code> extension) is the
+<code>repository</code> field that had been replaced with a template markup <code>{{
+   .repository }}</code>.
+</p>
+
+<p>
+Next is to create a file that fills in the template parameters. This will be
+a yaml file with the following content:
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 7: </span>params1.yaml</label><pre class="src src-yaml"><span style="color: #7590db;">repository</span>: https://github.com/origoss/yemplate.git 
+</pre>
+</div>
+
+<p>
+We can use <code>yemplate</code> now to fill in the holes:
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 8: </span>Templating with yemplate</label><pre class="src src-bash">yemplate -p params1.yaml -t job1.yaml.t
+</pre>
+</div>
+
+<pre class="example">
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: git-copy-1
+spec:
+  template:
+    spec:
+      containers:
+      - name: git-copier
+        image: busybox
+        volumeMounts:
+        - name: gitrepo
+          mountPath: /git
+        - name: target
+          mountPath: /target
+        command:
+        - sh
+        - -c
+        - |
+          rm -rf /target/*
+          rm -rf /target/.*
+          cp -a /git/* /target
+          ls -a /target/*/*
+      restartPolicy: Never
+      volumes:
+      - name: gitrepo
+        gitRepo:
+          repository: https://github.com/origoss/yemplate.git
+      - name: target
+        persistentVolumeClaim:
+          claimName: git-repo-target
+</pre>
+
+<p>
+As you can see, <code>yemplate</code> generated to the stdout a proper Kubernetes job
+manifest file with the provided parameter in the value of the <code>repository</code>
+field.
+</p>
+
+<p>
+We can use this for creating our job:
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 9: </span>Starting templated job1</label><pre class="src src-bash">yemplate -p params1.yaml -t job1.yaml.t | kubectl apply -f -
+</pre>
+</div>
+
+<pre class="example">
+job.batch "git-copy-1" created
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2018-05-10 cs 00:00</p>
+<p class="author">Author: Gergely Szabo</p>
+<p class="date">Created: 2018-05-10 cs 11:34</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
