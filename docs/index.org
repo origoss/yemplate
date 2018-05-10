@@ -192,7 +192,7 @@
    
    #+NAME: job1yamlt
    #+CAPTION: job1.yaml.t
-   #+BEGIN_SRC text :tangle job1.yaml.t
+   #+BEGIN_SRC text -n :tangle job1.yaml.t
      apiVersion: batch/v1
      kind: Job
      metadata:
@@ -228,21 +228,14 @@
   
    The only difference (besides the meaningless ~.t~ extension) is the
    ~repository~ field that had been replaced with a template markup ~{{
-   .repository }}~.
-
-   Next is to create a file that fills in the template parameters. This will be
-   a yaml file with the following content:
-
-   #+CAPTION: params1.yaml
-   #+BEGIN_SRC yaml :tangle params1.yaml
-     repository: https://github.com/origoss/yemplate.git 
-   #+END_SRC 
+   .repository }}~ in line 28.
 
    We can use ~yemplate~ now to fill in the holes:
 
    #+CAPTION: Templating with yemplate
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -p params1.yaml -t job1.yaml.t
+     yemplate -s repository=https://github.com/origoss/yemplate.git \
+              -t job1.yaml.t
    #+END_SRC
 
    #+RESULTS:
@@ -288,7 +281,9 @@
 
   #+CAPTION: Starting templated job1
   #+BEGIN_SRC bash :results verbatim :exports both
-    yemplate -p params1.yaml -t job1.yaml.t | kubectl apply -f -
+    yemplate -s repository=https://github.com/origoss/yemplate.git \
+             -t job1.yaml.t | \
+        kubectl apply -f -
   #+END_SRC
 
   #+RESULTS:

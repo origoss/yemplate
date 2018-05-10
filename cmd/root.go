@@ -4,28 +4,38 @@ import (
 	"fmt"
 	"os"
 
+	"bytes"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io"
+	"strings"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "yemplate",
 	Short: "yemplate is a simple CLI wrapper for the go text/template library",
-	Run: func(cmd *cobra.Command, args []string) {
-		var parameters, templated io.Reader
-		var err error
-		if parameters, err = os.Open(parameterFile); err != nil {
-			panic(err)
-		}
-		if templated, err = os.Open(templateFile); err != nil {
-			panic(err)
+	RunE: func(cmd *cobra.Command, args []string) error {
+		paramMap, err := parameterParser(parameters)
+		if err != nil {
+			return err
 		}
 
-		if err := doTemplate(parameters, templated, os.Stdout); err != nil {
-			panic(err)
+		var parameters, templated io.Reader
+		if parameterFile == "" {
+			parameters = bytes.NewBufferString("{}")
+		} else if parameters, err = os.Open(parameterFile); err != nil {
+			return err
 		}
+		if templated, err = os.Open(templateFile); err != nil {
+			return err
+		}
+
+		mergedMap, err := mergedParameters(parameters, paramMap)
+		if err != nil {
+			return err
+		}
+		return doTemplate(mergedMap, templated, os.Stdout)
 	},
 }
 
@@ -40,13 +50,27 @@ var (
 	cfgFile       string
 	parameterFile string
 	templateFile  string
+	parameters    []string
 )
+
+func parameterParser(params []string) (map[string]string, error) {
+	paramMap := make(map[string]string)
+	for _, param := range params {
+		kvs := strings.Split(param, "=")
+		if len(kvs) != 2 {
+			return nil, fmt.Errorf("Invalid parameter format: %s", param)
+		}
+		paramMap[kvs[0]] = kvs[1]
+	}
+	return paramMap, nil
+}
 
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&parameterFile, "parameters", "p", "parameters.yaml", "file name of the yaml file with the parameters to insert")
+	rootCmd.PersistentFlags().StringVarP(&parameterFile, "parameters", "p", "", "file name of the yaml file with the parameters to insert")
 	rootCmd.PersistentFlags().StringVarP(&templateFile, "template", "t", "", "file name of the template file")
+	rootCmd.PersistentFlags().StringArrayVarP(&parameters, "set", "s", []string{}, "parameters in the format of key=value")
 }
 
 func initConfig() {

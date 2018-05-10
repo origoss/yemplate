@@ -28,7 +28,23 @@
 
 * Examples
 
-** Simple substition
+** Simple substitution
+
+   The ~text1.txt~ template file looks like this:
+   #+CAPTION: text1.txt
+   #+BEGIN_SRC text :tangle text1.txt
+     Welcome {{ .name }}, I know your favorite food is {{ .favoriteFood }}.
+   #+END_SRC
+
+   To execute a simple substitution:
+   #+BEGIN_SRC bash :results verbatim :exports both
+     yemplate -s name=Gergely -s favoriteFood=chocolate -t text1.txt
+   #+END_SRC
+
+   #+RESULTS:
+   : Welcome Gergely, I know your favorite food is chocolate.
+
+** Simple substitution with parameters file
 
    The ~param1.yaml~ file looks like this:
    #+CAPTION: param1.yaml
@@ -37,12 +53,6 @@
      favoriteFood: chocolate 
    #+END_SRC
    
-   The ~text1.txt~ file looks like this:
-   #+CAPTION: text1.txt
-   #+BEGIN_SRC text :tangle text1.txt
-     Welcome {{ .name }}, I know your favorite food is {{ .favoriteFood }}.
-   #+END_SRC
-
    To execute the substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
      yemplate -p param1.yaml -t text1.txt
@@ -50,6 +60,15 @@
 
    #+RESULTS:
    : Welcome Gergely, I know your favorite food is chocolate.
+
+   You can override the parameters defined in the file with the command-line
+   parameters:
+   #+BEGIN_SRC bash :results verbatim :exports both
+     yemplate -p param1.yaml -t text1.txt -s favoriteFood=hamburger
+   #+END_SRC
+
+   #+RESULTS:
+   : Welcome Gergely, I know your favorite food is hamburger.
 
 ** A bit more complex 
 
