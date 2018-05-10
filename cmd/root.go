@@ -9,29 +9,24 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io"
-	"strings"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "yemplate",
 	Short: "yemplate is a simple CLI wrapper for the go text/template library",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		paramMap, err := parameterParser(parameters)
-		if err != nil {
-			return err
-		}
-
-		var parameters, templated io.Reader
+		var err error
+		var params, templated io.Reader
 		if parameterFile == "" {
-			parameters = bytes.NewBufferString("{}")
-		} else if parameters, err = os.Open(parameterFile); err != nil {
+			params = bytes.NewBufferString("{}")
+		} else if params, err = os.Open(parameterFile); err != nil {
 			return err
 		}
 		if templated, err = os.Open(templateFile); err != nil {
 			return err
 		}
 
-		mergedMap, err := mergedParameters(parameters, paramMap)
+		mergedMap, err := mergedParameters(params, parameters)
 		if err != nil {
 			return err
 		}
@@ -52,18 +47,6 @@ var (
 	templateFile  string
 	parameters    []string
 )
-
-func parameterParser(params []string) (map[string]string, error) {
-	paramMap := make(map[string]string)
-	for _, param := range params {
-		kvs := strings.Split(param, "=")
-		if len(kvs) != 2 {
-			return nil, fmt.Errorf("Invalid parameter format: %s", param)
-		}
-		paramMap[kvs[0]] = kvs[1]
-	}
-	return paramMap, nil
-}
 
 func init() {
 	cobra.OnInitialize(initConfig)

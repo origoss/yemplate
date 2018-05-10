@@ -4,10 +4,11 @@ import (
 	"github.com/ghodss/yaml"
 	"io"
 	"io/ioutil"
+	"k8s.io/helm/pkg/strvals"
 	"text/template"
 )
 
-func mergedParameters(params io.Reader, paramMap map[string]string) (map[string]interface{}, error) {
+func mergedParameters(params io.Reader, paramStrvals []string) (map[string]interface{}, error) {
 	var templateBytes []byte
 	var err error
 	templateMap := make(map[string]interface{})
@@ -17,8 +18,10 @@ func mergedParameters(params io.Reader, paramMap map[string]string) (map[string]
 	if err = yaml.Unmarshal(templateBytes, &templateMap); err != nil {
 		return nil, err
 	}
-	for k, v := range paramMap {
-		templateMap[k] = v
+	for _, strval := range paramStrvals {
+		if err = strvals.ParseInto(strval, templateMap); err != nil {
+			return nil, err
+		}
 	}
 	return templateMap, nil
 }

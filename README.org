@@ -70,7 +70,7 @@
    #+RESULTS:
    : Welcome Gergely, I know your favorite food is hamburger.
 
-** A bit more complex 
+** A bit more complex example
 
    The ~param2.yaml~ file looks like this:
    #+CAPTION: param2.yaml
@@ -101,3 +101,16 @@
    : -chocolate 
    : -banana 
    : -ice cream 
+
+   Or you can try setting the parameters via the CLI:
+   #+BEGIN_SRC bash :results verbatim :exports both
+     yemplate -t text2.txt \
+              -s "name=Kinga" \
+              -s "favoriteFoods[0]=pizza" \
+              -s "favoriteFoods[1]=hamburger"
+   #+END_SRC
+
+   #+RESULTS:
+   : Welcome Kinga, I know your favorite foods are
+   : -pizza 
+   : -hamburger 
