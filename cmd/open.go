@@ -8,13 +8,17 @@ import (
 )
 
 func openFileOrWeb(u string) (io.ReadCloser, error) {
-	_, err := url.Parse(u)
-	if err != nil {
-		return os.Open(u)
-	}
-	resp, err := http.Get(u)
+	parsedURL, err := url.Parse(u)
 	if err != nil {
 		return nil, err
 	}
-	return resp.Body, nil
+	if parsedURL.Scheme == "http" ||
+		parsedURL.Scheme == "https" {
+		resp, err := http.Get(u)
+		if err != nil {
+			return nil, err
+		}
+		return resp.Body, nil
+	}
+	return os.Open(u)
 }
