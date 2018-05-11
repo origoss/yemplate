@@ -55,7 +55,7 @@
    
    To execute the substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -p param1.yaml -t text1.txt
+     yemplate -f param1.yaml -t text1.txt
    #+END_SRC
 
    #+RESULTS:
@@ -64,7 +64,7 @@
    You can override the parameters defined in the file with the command-line
    parameters:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -p param1.yaml -t text1.txt -s favoriteFood=hamburger
+     yemplate -f param1.yaml -t text1.txt -s favoriteFood=hamburger
    #+END_SRC
 
    #+RESULTS:
@@ -93,7 +93,7 @@
 
    To execute the substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -p param2.yaml -t text2.txt
+     yemplate -f param2.yaml -t text2.txt
    #+END_SRC
 
    #+RESULTS:

@@ -52,7 +52,7 @@ var (
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&parameterFile, "parameters", "p", "", "file name of the yaml file with the parameters to insert")
+	rootCmd.PersistentFlags().StringVarP(&parameterFile, "values", "f", "", "file name of the yaml file with the parameter values to insert")
 	rootCmd.PersistentFlags().StringVarP(&templateFile, "template", "t", "", "file name of the template file")
 	rootCmd.PersistentFlags().StringArrayVarP(&parameters, "set", "s", []string{}, "parameters in the format of key=value")
 }
