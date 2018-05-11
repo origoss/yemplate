@@ -12,12 +12,15 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "yemplate",
+	Use:   "yemplate <templated file>",
 	Short: "yemplate is a simple CLI wrapper for the go text/template library",
+	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var err error
 		var params io.Reader
 		var templated io.ReadCloser
+
+		templateFile := args[0]
 		if parameterFile == "" {
 			params = bytes.NewBufferString("{}")
 		} else if params, err = os.Open(parameterFile); err != nil {
@@ -45,7 +48,6 @@ func Execute() {
 var (
 	cfgFile       string
 	parameterFile string
-	templateFile  string
 	parameters    []string
 )
 
@@ -53,8 +55,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&parameterFile, "values", "f", "", "file name of the yaml file with the parameter values to insert")
-	rootCmd.PersistentFlags().StringVarP(&templateFile, "template", "t", "", "file name of the template file")
-	rootCmd.PersistentFlags().StringArrayVarP(&parameters, "set", "s", []string{}, "parameters in the format of key=value")
+	rootCmd.PersistentFlags().StringArrayVarP(&parameters, "set", "", []string{}, "parameters in the format of key=value")
 }
 
 func initConfig() {

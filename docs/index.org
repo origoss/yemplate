@@ -234,8 +234,8 @@
 
    #+CAPTION: Templating with yemplate
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -s repository=https://github.com/origoss/yemplate.git \
-              -t job1.yaml.t
+     yemplate job1.yaml.t                                              \
+              --set repository=https://github.com/origoss/yemplate.git
    #+END_SRC
 
    #+RESULTS:
@@ -281,8 +281,8 @@
 
   #+CAPTION: Starting templated job1
   #+BEGIN_SRC bash :results verbatim :exports both
-    yemplate -s repository=https://github.com/origoss/yemplate.git \
-             -t job1.yaml.t | \
+    yemplate job1.yaml.t                                                \
+             --set repository=https://github.com/origoss/yemplate.git | \
         kubectl apply -f -
   #+END_SRC
 

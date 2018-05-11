@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-05-10 cs 13:47 -->
+<!-- 2018-05-11 p 10:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Yemplate</title>
@@ -240,19 +240,19 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org952d669">1. Introduction</a></li>
-<li><a href="#org9832859">2. Use case</a>
+<li><a href="#org8ba4544">1. Introduction</a></li>
+<li><a href="#org0cf0604">2. Use case</a>
 <ul>
-<li><a href="#org3b61817">2.1. First approach</a></li>
-<li><a href="#org052cc48">2.2. Repeat with another git repo</a></li>
+<li><a href="#org8f7be11">2.1. First approach</a></li>
+<li><a href="#org080911d">2.2. Repeat with another git repo</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org952d669" class="outline-2">
-<h2 id="org952d669"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org8ba4544" class="outline-2">
+<h2 id="org8ba4544"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We at <a href="https://origoss.com">origoss</a> love <a href="https://kubernetes.io">Kubernetes</a>. Sometimes we use our Kubernetes deployment to
@@ -265,8 +265,8 @@ Batch jobs are awesome but sometimes we find it a bit hard to work with.
 </div>
 </div>
 
-<div id="outline-container-org9832859" class="outline-2">
-<h2 id="org9832859"><span class="section-number-2">2</span> Use case</h2>
+<div id="outline-container-org0cf0604" class="outline-2">
+<h2 id="org0cf0604"><span class="section-number-2">2</span> Use case</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Let's see a bit convoluted use case where we want to copy a git repository to
@@ -274,8 +274,8 @@ a <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">pers
 </p>
 </div>
 
-<div id="outline-container-org3b61817" class="outline-3">
-<h3 id="org3b61817"><span class="section-number-3">2.1</span> First approach</h3>
+<div id="outline-container-org8f7be11" class="outline-3">
+<h3 id="org8f7be11"><span class="section-number-3">2.1</span> First approach</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 First, let's create a manifest file for our job that will mount two volumes
@@ -283,7 +283,7 @@ and perform the copy between the volumes.
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span>job1.yaml</label><pre class="src src-yaml" id="org39d1234"><span style="color: #7590db;">apiVersion</span>: batch/v1
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>job1.yaml</label><pre class="src src-yaml" id="org16e0d96"><span style="color: #7590db;">apiVersion</span>: batch/v1
 <span style="color: #7590db;">kind</span>: Job
 <span style="color: #7590db;">metadata</span>:
   <span style="color: #7590db;">name</span>: git-copy-1
@@ -419,8 +419,8 @@ job.batch "git-copy-1" deleted
 </div>
 </div>
 
-<div id="outline-container-org052cc48" class="outline-3">
-<h3 id="org052cc48"><span class="section-number-3">2.2</span> Repeat with another git repo</h3>
+<div id="outline-container-org080911d" class="outline-3">
+<h3 id="org080911d"><span class="section-number-3">2.2</span> Repeat with another git repo</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 We demonstrated, that it is relatively easy to start a job in Kubernetes.
@@ -430,7 +430,7 @@ parameters, e.g. for a different git repository?
 
 <p>
 For jobs, the current standard solution is to create a new yaml file based on
-the one shown in Listing <a href="#org39d1234">1</a>.
+the one shown in Listing <a href="#org16e0d96">1</a>.
 </p>
 
 <p>
@@ -444,11 +444,11 @@ Fortunately, for jobs, we can use the simple <a href="https://github.com/origoss
 </p>
 
 <p>
-Let's create a job template based on the <a href="#org39d1234">previous job manifest</a>.
+Let's create a job template based on the <a href="#org16e0d96">previous job manifest</a>.
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 6: </span>job1.yaml.t</label><pre class="src src-text" id="orgf342a4f"><span class="linenr"> 1: </span>apiVersion: batch/v1
+<label class="org-src-name"><span class="listing-number">Listing 6: </span>job1.yaml.t</label><pre class="src src-text" id="org4c85722"><span class="linenr"> 1: </span>apiVersion: batch/v1
 <span class="linenr"> 2: </span>kind: Job
 <span class="linenr"> 3: </span>metadata:
 <span class="linenr"> 4: </span>  name: git-copy-1
@@ -493,8 +493,8 @@ We can use <code>yemplate</code> now to fill in the holes:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 7: </span>Templating with yemplate</label><pre class="src src-bash">yemplate -s <span style="color: #7590db;">repository</span>=https://github.com/origoss/yemplate.git <span style="color: #2d9574;">\</span>
-         -t job1.yaml.t
+<label class="org-src-name"><span class="listing-number">Listing 7: </span>Templating with yemplate</label><pre class="src src-bash">yemplate job1.yaml.t                                              <span style="color: #2d9574;">\</span>
+         --set <span style="color: #7590db;">repository</span>=https://github.com/origoss/yemplate.git
 </pre>
 </div>
 
@@ -543,8 +543,8 @@ We can use this for creating our job:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 8: </span>Starting templated job1</label><pre class="src src-bash">yemplate -s <span style="color: #7590db;">repository</span>=https://github.com/origoss/yemplate.git <span style="color: #2d9574;">\</span>
-         -t job1.yaml.t | <span style="color: #2d9574;">\</span>
+<label class="org-src-name"><span class="listing-number">Listing 8: </span>Starting templated job1</label><pre class="src src-bash">yemplate job1.yaml.t                                                <span style="color: #2d9574;">\</span>
+         --set <span style="color: #7590db;">repository</span>=https://github.com/origoss/yemplate.git | <span style="color: #2d9574;">\</span>
     kubectl apply -f -
 </pre>
 </div>
@@ -560,7 +560,7 @@ job.batch "git-copy-1" created
 <div id="postamble" class="status">
 <p class="date">Date: 2018-05-10 cs 00:00</p>
 <p class="author">Author: Gergely Szabo</p>
-<p class="date">Created: 2018-05-10 cs 13:47</p>
+<p class="date">Created: 2018-05-11 p 10:10</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

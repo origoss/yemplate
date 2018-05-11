@@ -27,7 +27,6 @@
   #+END_SRC
 
 * Examples
-
 ** Simple substitution
 
    The ~text1.txt~ template file looks like this:
@@ -38,7 +37,7 @@
 
    To execute a simple substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -s name=Gergely -s favoriteFood=chocolate -t text1.txt
+     yemplate text1.txt --set name=Gergely,favoriteFood=chocolate 
    #+END_SRC
 
    #+RESULTS:
@@ -55,7 +54,7 @@
    
    To execute the substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -f param1.yaml -t text1.txt
+     yemplate text1.txt -f param1.yaml
    #+END_SRC
 
    #+RESULTS:
@@ -64,7 +63,7 @@
    You can override the parameters defined in the file with the command-line
    parameters:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -f param1.yaml -t text1.txt -s favoriteFood=hamburger
+     yemplate text1.txt -f param1.yaml --set favoriteFood=hamburger
    #+END_SRC
 
    #+RESULTS:
@@ -93,7 +92,7 @@
 
    To execute the substitution:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -f param2.yaml -t text2.txt
+     yemplate text2.txt -f param2.yaml
    #+END_SRC
 
    #+RESULTS:
@@ -104,10 +103,10 @@
 
    Or you can try setting the parameters via the CLI:
    #+BEGIN_SRC bash :results verbatim :exports both
-     yemplate -t text2.txt \
-              -s "name=Kinga" \
-              -s "favoriteFoods[0]=pizza" \
-              -s "favoriteFoods[1]=hamburger"
+     yemplate text2.txt                           \
+              --set "name=Kinga"                  \
+              --set "favoriteFoods[0]=pizza"      \
+              --set "favoriteFoods[1]=hamburger"
    #+END_SRC
 
    #+RESULTS:
