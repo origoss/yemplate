@@ -13,11 +13,14 @@
 
 * Introduction
 
-  =yemplate= is a simple CLI wrapper around golang's [[https://golang.org/pkg/text/template][text/template]] library. 
+  =yemplate= is a simple CLI wrapper around golang's [[https://golang.org/pkg/text/template][text/template]] library. It
+  is inspired by [[https://helm.sh/][Helm]].
 
-  It takes to input:
-  - A yaml file with defining parameters (=-p=)
-  - An arbitrary text file using the =text/template= markup (=-t=)
+  It takes the following inputs:
+  - A file that contains [[https://golang.org/pkg/text/template][text/template]] markups
+  - An optional yaml file with defining parameters (=-f=)
+  - Optional parameters that might override the parameters of the yaml file
+    (=--set=)
 
 * Installation
   
